@@ -24,22 +24,26 @@ simply.on('singleClick', function(e) {
   } else if (e.button === 'select') {
     current = "";
     message = message + " ";
+    var c = lookup_morse_by_char(current);
+    if (c === false) {
+      console.log("Failed resolution, deleting buffer");
+      simply.vibe("double");
+      current = "";
+    } else {
+      console.log("Resolved morse to char '" + c + "'");
+      message = message + c;
+      current = "";
+    }
+  update_display();
   }
   console.log("Current input '" + current + "'");
-  var c = lookup_morse_by_char(current);
-  if (c !== false) {
-    console.log("Resolved morse to char '" + c + "'");
-    simply.vibe();
-    message = message + c;
-    current = "";
-  }
-  update_display();
+  
 });
 
 simply.on('longClick', function(e) {
   console.log(util2.format('long clicked $button!', e));
   if (e.button === 'select') {
-    simply.vibe("double");
+    simply.vibe();
     // send msg
     message = "";
     
