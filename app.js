@@ -18,26 +18,26 @@ function load_morse_lookup(jsonurl) {
 simply.on('singleClick', function(e) {
  console.log(util2.format('single clicked $button!', e));
   if (e.button === 'up') {
-    current = current + "-";
-  } else if (e.button === 'down') {
     current = current + ".";
+  } else if (e.button === 'down') {
+    current = current + "-";
   } else if (e.button === 'select') {
-    current = "";
-    message = message + " ";
-    var c = lookup_morse_by_char(current);
-    if (c === false) {
-      console.log("Failed resolution, deleting buffer");
-      simply.vibe("double");
-      current = "";
+    if (current === "") {
+      message = message + " ";
     } else {
-      console.log("Resolved morse to char '" + c + "'");
-      message = message + c;
+      var c = lookup_morse_by_char(current);
+      if (c === false) {
+        console.log("Failed resolution, deleting buffer");
+        simply.vibe("double");
+      } else {
+        console.log("Resolved morse to char '" + c + "'");
+        message = message + c;
+      }
       current = "";
     }
-  update_display();
+    update_display();
   }
   console.log("Current input '" + current + "'");
-  
 });
 
 simply.on('longClick', function(e) {
